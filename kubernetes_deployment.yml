@@ -33,7 +33,7 @@ spec:
         run: docker-storage-test
     spec:
       containers:
-      - image: gcr.io/docker-storage-test/docker-storage-test:latest
+      - image: gcr.io/docker-storage-test-project/docker-storage-test:latest
         imagePullPolicy: Always
         name: docker-storage-test
         ports:
