@@ -1,0 +1,62 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: 2016-06-06T03:35:38Z
+  generation: 2
+  labels:
+    run: docker-storage-test
+  name: docker-storage-test
+  namespace: default
+  resourceVersion: "341"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/docker-storage-test
+  uid: bcb4e6bb-2b97-11e6-97ae-42010af0005e
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: docker-storage-test
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: docker-storage-test
+    spec:
+      containers:
+      - image: gcr.io/docker-storage-test/docker-storage-test:latest
+        imagePullPolicy: Always
+        name: docker-storage-test
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        volumeMounts:
+          # This name must match the volumes.name below.
+          - name: docker-storage-test-disk
+            mountPath: /data
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: docker-storage-test-disk
+          gcePersistentDisk:
+            # This disk must already exist.
+            pdName: docker-storage-test-disk
+            fsType: ext4
+status:
+  availableReplicas: 1
+  observedGeneration: 2
+  replicas: 1
+  updatedReplicas: 1
